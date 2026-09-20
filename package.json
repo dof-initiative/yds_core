@@ -1,0 +1,22 @@
+{
+  "name": "yds_core",
+  "version": "0.0.0",
+  "description": "Core LinkML schema definitions needed to enable use of yaml-datastore in m30ml projects",
+  "homepage": "https://github.com/dof-initiative/yds_core#readme",
+  "bugs": {
+    "url": "https://github.com/dof-initiative/yds_core/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dof-initiative/yds_core.git"
+  },
+  "license": "Apache-2.0",
+  "author": "Mach 30",
+  "type": "module",
+  "scripts": {
+    "test": "c8 mocha --forbid-only"
+  },
+  "devDependencies": {
+    "yaml-datastore": "^0.1.0-alpha.2"
+  }
+}
