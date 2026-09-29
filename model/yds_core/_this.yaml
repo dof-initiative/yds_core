@@ -1,0 +1,7 @@
+id: https://github.com/dof-initiative/yds_core
+version: 0.0.0
+license: https://creativecommons.org/licenses/by/4.0/
+name: yds_core
+description: ((description))
+title: YAML Datastore Core
+keywords: ((keywords.yaml))
