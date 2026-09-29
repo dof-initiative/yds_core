@@ -1,0 +1,7 @@
+Core [LinkML](https://linkml.io/) schema definitions needed to enable use of [yaml-datastore](https://github.com/dof-initiative/yaml-datastore) in [m30ml](https://github.com/dof-initiative/m30ml) projects.
+
+Core features:
+
+* yaml-datastore compatible primitive string types (e.g., simple and complex strings)
+* yaml-datastore compatible primitive slot types (e.g., ids)
+* schema building reference sheet for yaml-datastore
