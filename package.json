@@ -17,6 +17,6 @@
     "test": "c8 mocha --forbid-only"
   },
   "devDependencies": {
-    "yaml-datastore": "^0.1.0-alpha.2"
+    "yaml-datastore": "^0.1.0-alpha.3"
   }
 }
