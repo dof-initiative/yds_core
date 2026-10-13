@@ -46,6 +46,9 @@ jobs:
       - name: Install yq # as per https://github.com/mikefarah/yq#plain-binary
         run: sudo wget https://github.com/mikefarah/yq/releases/download/v4.35.1/yq_linux_amd64 -O /usr/bin/yq && sudo chmod +x /usr/bin/yq
 
+      - name: Install node package dependencies
+        run: npm ci
+
       - name: Build schema
         run: ./gradlew build
 
