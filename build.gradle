@@ -13,16 +13,16 @@ plugins {
 
 def yamlExtension = ".yaml"
 def rootElementName = "model"
-def schemaElementName = "yds_core"
-def schemaElementPath = "$rootElementName.$schemaElementName"
+def targetElementName = "yds_core"
+def targetElementPath = "$rootElementName.$targetElementName"
 def rootElementSrcDirPath = "$projectDir/$rootElementName"
-def unifiedSchemaBuildPath = "$buildDir/$schemaElementName$yamlExtension"
+def unifiedSchemaBuildPath = "$buildDir/$targetElementName$yamlExtension"
 
 tasks.register('loadUnifiedSchemaAsYaml', Exec) {
     inputs.files(fileTree("$rootElementSrcDirPath"))
         .withPathSensitivity(PathSensitivity.ABSOLUTE)
     outputs.dir(layout.buildDirectory.dir("$buildDir"))
-    commandLine "bash", "-c", "npm exec -- yds-load $projectDir -e $schemaElementPath > $unifiedSchemaBuildPath"
+    commandLine "bash", "-c", "npm exec -- yds-load $projectDir -e $targetElementPath > $unifiedSchemaBuildPath"
 }
 
 tasks.register('buildUnifiedSchema', Exec) {
