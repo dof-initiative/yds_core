@@ -35,7 +35,7 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout github repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Install nodejs & npm
         run: sudo apt install nodejs && sudo apt install npm
@@ -55,7 +55,7 @@ jobs:
       - name: Build schema
         run: ./gradlew build
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: yds_core
           path: ./build
