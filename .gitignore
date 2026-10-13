@@ -1,3 +1,4 @@
+# npm
 *-error.log
 .nyc_output/
 dist/
@@ -6,3 +7,7 @@ tmp/
 node_modules
 **.DS_Store
 *.tsbuildinfo
+
+# gradle
+build/
+.gradle/
