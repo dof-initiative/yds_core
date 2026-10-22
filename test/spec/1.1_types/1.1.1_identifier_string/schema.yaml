@@ -1,0 +1,15 @@
+id: https://github.com/dof-initiative/yds_core/test
+name: identifier_string_test
+prefixes:
+  yds_core: https://github.com/dof-initiative/yds_core
+imports:
+  - yds_core:types
+default_range: YdsIdString
+
+classes:
+  Container:
+    tree_root: true
+    attributes:
+      identifiers:
+        multivalued: true
+        inlined_as_list: true
