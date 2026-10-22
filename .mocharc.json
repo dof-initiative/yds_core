@@ -1,0 +1,8 @@
+{
+  "extension": ["ts"],
+  "spec": "test/**/*.spec.ts",
+  "compilerOptions": {
+    "esModuleInterop": true
+  },
+  "node-option": ["import=tsx"]
+}
