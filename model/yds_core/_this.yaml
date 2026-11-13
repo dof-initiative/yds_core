@@ -5,3 +5,5 @@ name: yds_core
 description: ((description))
 title: YAML Datastore Core
 keywords: ((keywords.yaml))
+prefixes: ((prefixes/_this.yaml))
+imports: ((imports.yaml))
