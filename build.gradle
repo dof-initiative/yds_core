@@ -14,15 +14,27 @@ plugins {
 def yamlExtension = ".yaml"
 def rootElementName = "model"
 def targetElementName = "yds_core"
+def loadedElementName = "loaded_$targetElementName"
 def targetElementPath = "$rootElementName.$targetElementName"
 def rootElementSrcDirPath = "$projectDir/$rootElementName"
+def loadedSchemaBuildPath = "$buildDir/$loadedElementName$yamlExtension"
 def unifiedSchemaBuildPath = "$buildDir/$targetElementName$yamlExtension"
+def schemaValidationHelperSrcDirPath = "$projectDir/src"
+def distDir = "$projectDir/dist"
+
+tasks.register('buildSchemaValidationHelper', Exec) {
+    inputs.files(fileTree("$schemaValidationHelperSrcDirPath"))
+        .withPathSensitivity(PathSensitivity.ABSOLUTE)
+    outputs.dir(layout.buildDirectory.dir("$distDir"))
+    commandLine "bash", "-c", "npm run build"
+}
 
 tasks.register('loadUnifiedSchemaAsYaml', Exec) {
+    dependsOn(buildSchemaValidationHelper)
     inputs.files(fileTree("$rootElementSrcDirPath"))
         .withPathSensitivity(PathSensitivity.ABSOLUTE)
     outputs.dir(layout.buildDirectory.dir("$buildDir"))
-    commandLine "bash", "-c", "npm exec -- yds-load $projectDir -e $targetElementPath > $unifiedSchemaBuildPath"
+    commandLine "bash", "-c", "npm exec -- yds-load $projectDir -e $targetElementPath > $loadedSchemaBuildPath"
 }
 
 tasks.register('buildUnifiedSchema', Exec) {
@@ -30,10 +42,30 @@ tasks.register('buildUnifiedSchema', Exec) {
     inputs.files(fileTree("$rootElementSrcDirPath"))
         .withPathSensitivity(PathSensitivity.ABSOLUTE)
     outputs.dir(layout.buildDirectory.dir("$buildDir"))
-    commandLine "bash", "-c", "gen-yaml $unifiedSchemaBuildPath --mergeimports"
+    commandLine "bash", "-c", "gen-yaml $loadedSchemaBuildPath --mergeimports > $unifiedSchemaBuildPath"
+}
+
+tasks.register('cleanupUnifiedYaml', Exec) {
+    dependsOn(buildUnifiedSchema)
+    inputs.files(fileTree("$rootElementSrcDirPath"))
+        .withPathSensitivity(PathSensitivity.ABSOLUTE)
+    outputs.dir(layout.buildDirectory.dir("$buildDir"))
+    commandLine "yq", "-i", "del(.imports)", "$unifiedSchemaBuildPath"
 }
 
 tasks.named("assemble") {
-    dependsOn(buildUnifiedSchema)
+    dependsOn(cleanupUnifiedYaml)
 }
 
+tasks.register('runSchemaTest', Exec) {
+    dependsOn(assemble)
+    commandLine "bash", "-c", "npm run test"
+}
+
+tasks.named("build") {
+    dependsOn(runSchemaTest)
+}
+
+tasks.named("clean") {
+    delete "$buildDir", "$distDir"
+}

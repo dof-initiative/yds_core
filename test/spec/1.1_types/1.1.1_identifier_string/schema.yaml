@@ -1,10 +1,10 @@
 id: https://github.com/dof-initiative/yds_core/test
 name: identifier_string_test
 prefixes:
-  yds_core: https://github.com/dof-initiative/yds_core
+  yds_core: https://github.com/dof-initiative/yds_core/
 imports:
-  - yds_core:types
-default_range: YdsIdString
+  - linkml:types #yds_core:types
+default_range: string #YdsIdString
 
 classes:
   Container:

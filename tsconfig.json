@@ -1,0 +1,23 @@
+{
+  "include": ["./src"],
+  // "exclude": [
+  // ],
+  "compilerOptions": {
+    "module": "Node16",
+    "target": "es2022",
+    // "lib": ["es2022"],
+    "declaration": true,
+    "strict": true,
+    "moduleResolution": "node16",
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./dist",
+    "rootDir": "./src"
+  },
+  "typedocOptions": {
+    "entryPoints": ["./src"],
+    "plugin": ["typedoc-plugin-markdown"],
+    "out": "./docs"
+  }
+}

@@ -1,0 +1,6 @@
+identifiers:
+  - "!foobar"
+  - can't_resolve_name
+  - foo,bar
+  - ~picard
+  - +one
