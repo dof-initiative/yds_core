@@ -15,9 +15,11 @@ def yamlExtension = ".yaml"
 def rootElementName = "model"
 def targetElementName = "yds_core"
 def loadedElementName = "loaded_$targetElementName"
+def mergedElementName = "merged_$targetElementName"
 def targetElementPath = "$rootElementName.$targetElementName"
 def rootElementSrcDirPath = "$projectDir/$rootElementName"
 def loadedSchemaBuildPath = "$buildDir/$loadedElementName$yamlExtension"
+def mergedSchemaBuildPath = "$buildDir/$mergedElementName$yamlExtension"
 def unifiedSchemaBuildPath = "$buildDir/$targetElementName$yamlExtension"
 def schemaValidationHelperSrcDirPath = "$projectDir/src"
 def distDir = "$projectDir/dist"
@@ -42,11 +44,19 @@ tasks.register('buildUnifiedSchema', Exec) {
     inputs.files(fileTree("$rootElementSrcDirPath"))
         .withPathSensitivity(PathSensitivity.ABSOLUTE)
     outputs.dir(layout.buildDirectory.dir("$buildDir"))
-    commandLine "bash", "-c", "gen-yaml $loadedSchemaBuildPath --mergeimports > $unifiedSchemaBuildPath"
+    commandLine "bash", "-c", "gen-yaml $loadedSchemaBuildPath --mergeimports > $mergedSchemaBuildPath"
 }
 
-tasks.register('cleanupUnifiedYaml', Exec) {
+tasks.register('removeExtraNewlinesFromComplexStrings', Exec) {
     dependsOn(buildUnifiedSchema)
+    inputs.files(fileTree("$rootElementSrcDirPath"))
+        .withPathSensitivity(PathSensitivity.ABSOLUTE)
+    outputs.dir(layout.buildDirectory.dir("$buildDir"))
+    commandLine "bash", "-c", "./bin/clean-merged-schema.js $mergedSchemaBuildPath > $unifiedSchemaBuildPath"
+}
+
+tasks.register('cleanupMergedImports', Exec) {
+    dependsOn(removeExtraNewlinesFromComplexStrings)
     inputs.files(fileTree("$rootElementSrcDirPath"))
         .withPathSensitivity(PathSensitivity.ABSOLUTE)
     outputs.dir(layout.buildDirectory.dir("$buildDir"))
@@ -54,7 +64,7 @@ tasks.register('cleanupUnifiedYaml', Exec) {
 }
 
 tasks.named("assemble") {
-    dependsOn(cleanupUnifiedYaml)
+    dependsOn(cleanupMergedImports)
 }
 
 tasks.register('runSchemaTest', Exec) {
