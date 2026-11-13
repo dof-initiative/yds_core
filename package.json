@@ -19,6 +19,9 @@
     "lint": "eslint ./src/**/*.ts",
     "test": "mocha --forbid-only"
   },
+  "bin": {
+    "clean-merged-schema": "./bin/clean-merged-schema.js"
+  },
   "devDependencies": {
     "yaml-datastore": "^0.1.0-alpha.3",
     "@eslint/js": "^9.22.0",
