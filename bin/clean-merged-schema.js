@@ -17,22 +17,6 @@ import fs from "node:fs";
 import path from "path";
 import yaml from "js-yaml";
 
-function fix_complex_strings(element) {
-    const list_of_keys = Object.keys(element)
-
-    list_of_keys.forEach((key) => {
-        if (typeof element[key] === "object" && element[key] !== null) {
-            fix_complex_strings(element[key])
-        } else if (typeof element[key] === "string" || element[key] instanceof String) {
-            if (element[key].includes("\n")) {
-                let complexString = element[key]
-                element[key] = complexString
-                //console.log(element[key])
-            }
-        }
-      });
-}
-
 const args = argv.slice(2);
 const numArgs = args.length;
 
@@ -68,4 +52,3 @@ if (elementFilePath.ext !== ".yaml") {
 
 let element = yaml.load(elementContents);
 console.log(yaml.dump(element, { lineWidth: -1 }).trimEnd())
-//fix_complex_strings(element)
